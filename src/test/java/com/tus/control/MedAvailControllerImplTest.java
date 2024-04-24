@@ -74,7 +74,7 @@ class MedAvailControllerImplTest {
 	}
 
 //Test 1
-	// @Test
+	@Test
 	void testCustomerNotFoundException() throws MedAvailException, SQLException {
 		Throwable exception=assertThrows(MedAvailCustomerException.class, () -> {
 			medAvailControllerImpl.processPrescription(CUSTOMER_ACCOUNT_ID, PRESCRIPTION_ID);
