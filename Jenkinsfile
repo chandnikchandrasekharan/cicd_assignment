@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/m3bin/Hello.git']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/chandnikchandrasekharan/cicd_assignment.git']])
                 echo 'Git Checkout Completed'
             }
         }
