@@ -11,6 +11,21 @@ pipeline {
                 echo 'Git Checkout Completed'
             }
         }
+    stage('JUnit Test') {
+            steps {
+                // Run unit tests
+                script {
+                    try {
+                        sh 'mvn clean test surefire-report:report' 
+                    } catch (err) {
+                        currentBuild.result = 'FAILURE'
+                        echo 'Unit tests failed!'
+                        error 'Unit tests failed!'
+                    }
+                }
+                echo 'JUnit test Completed'
+            }
+        }
     stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -80,9 +95,22 @@ pipeline {
                         )
                     ]
                 )
+                 echo 'Deployment Completed'
             }
         }
     
 
+    }
+    post {
+        failure {
+            // This block will execute if any of the previous stages fail, including unit tests
+            echo 'One or more stages have failed!'
+            echo 'Pipeline Aborted'
+        }
+        always {
+            echo 'always section'
+            // Publish Surefire test results
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+        }
     }
 }
